@@ -1,0 +1,14 @@
+view: products {
+  sql_table_name: dim_product ;;
+
+  dimension: itemno {
+    type: string
+    primary_key: yes
+    sql: ${TABLE}.product_id ;;
+  }
+
+  dimension: im_desc {
+    type: string
+    sql: ${TABLE}.item_description ;;
+  }
+}

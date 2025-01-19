@@ -27,13 +27,28 @@ view: orders {
   measure: total_sales {
     type: sum
     sql: ${sale_bottles} * ${sale_dollars} ;;
-    value_format_name: percent_2
+    value_format_name: usd_0
   }
 
-  measure: avg_sales_per_customer {
-    type: average
-    sql: ${sale_dollars} / NULLIF(${sale_bottles}, 0) ;;
-    value_format_name: percent_2
+  dimension: customer_id {
+    type: string
+    sql: ${TABLE}.customer_id ;; -- Asumiendo que existe un campo para identificar clientes
+  }
+
+  measure: n_customers {
+    type: count_distinct
+    sql: ${customer_id} ;;
+  }
+
+  measure: average_sales_per_customer {
+    type: number
+    sql: ${total_sales} / ${n_customers} ;;
+    value_format_name: decimal_2
+  }
+
+# Eliminación de duplicados (opcional)
+  derived_table: {
+    sql: SELECT DISTINCT * FROM fact_orders ;;
   }
   
 }

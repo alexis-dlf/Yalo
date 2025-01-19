@@ -11,4 +11,9 @@ view: products {
     type: string
     sql: ${TABLE}.item_description ;;
   }
+  
+  dimension: category_name {
+    type: string
+    sql: ${TABLE}.category_name ;; -- Asumiendo que esta columna existe en la tabla
+  }
 }

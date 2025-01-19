@@ -1,0 +1,7 @@
+explore: sales_analysis {
+  join: products {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${orders.itemno} = ${products.itemno} ;;
+  }
+}

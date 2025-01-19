@@ -1,0 +1,40 @@
+view: orders {
+  sql_table_name: fact_orders ;;
+
+  dimension: invoice_line_no {
+    type: string
+    primary_key: yes
+    sql: ${TABLE}.order_id ;;
+  }
+
+  dimension: itemno {
+    type: string
+    sql: ${TABLE}.product_id ;;
+  }
+
+  measure: sale_bottles {
+    type: sum
+    sql: ${TABLE}.bottles_sold ;;
+    value_format_name: usd_0
+  }
+
+  measure: sale_dollars {
+    type: sum
+    sql: ${TABLE}.sale_dollars ;;
+    
+  }
+
+  measure: total_sales {
+    type: sum
+    sql: ${sale_bottles} * ${sale_dollars} ;;
+    value_format_name: percent_2
+  }
+
+  measure: avg_sales_per_customer {
+    type: average
+    sql: ${sale_dollars} / NULLIF(${sale_bottles}, 0) ;;
+    value_format_name: percent_2
+  }
+  
+}
+
